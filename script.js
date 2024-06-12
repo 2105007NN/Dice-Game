@@ -1,8 +1,13 @@
 
+
+var winningScore = prompt("Enter the winning score");
+console.log(winningScore);
+
 var scores = [0, 0];
 var roundScore = 0;
 var activePlayer = 0; //initially first player's turn
 var gameEnd = false;
+var prevDiceScore = -1;
 var diceImage = document.querySelector(".dice");
 
 function rollDice() {
@@ -37,6 +42,9 @@ function newGame() {
     roundScore = 0;
     activePlayer = 0;
     diceImage.style.display = "none";
+    prevDiceScore = -1;
+    winningScore = prompt("Enter the winning score");
+
 }
 
 newGame();
@@ -50,7 +58,10 @@ function changeTurn() {
     activePlayer = (activePlayer == 0) ? 1 : 0;
     document.querySelector(`.player--${activePlayer}`).classList.add("player--active");
     roundScore = 0;
+    prevDiceScore = 0;
 }
+
+
 
 var diceBtn = document.querySelector(".btn--roll");
 diceBtn.addEventListener("click", () => {
@@ -61,7 +72,7 @@ diceBtn.addEventListener("click", () => {
         diceImage.src = `dice-${diceScore}.png`;
 
         //if 1 is rolled, change active player
-        if (diceScore == 1) {
+        if (diceScore == 1 || (diceScore === 6 && prevDiceScore === 6)) {
             scores[activePlayer] = 0;
             changeTurn();
             return;
@@ -71,6 +82,7 @@ diceBtn.addEventListener("click", () => {
         roundScore = roundScore + diceScore;
         console.log(roundScore);
         document.querySelector(`#current--${activePlayer}`).textContent = roundScore;
+        prevDiceScore = diceScore
     }
 
 });
@@ -83,7 +95,7 @@ holdBtn.addEventListener("click", () => {
         scores[activePlayer] += roundScore;
 
         //determine winner
-        if (scores[activePlayer] >= 50) {
+        if (scores[activePlayer] >= winningScore) {
             document.querySelector(`#score--${activePlayer}`).textContent = scores[activePlayer];
             document.querySelector(`.player--${activePlayer}`).classList.add("player--winner");
             document.querySelector(`#name--${activePlayer}`).textContent = "WINNER!!";
