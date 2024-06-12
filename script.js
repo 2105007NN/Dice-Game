@@ -1,7 +1,4 @@
 
-
-
-
 var scores = [0, 0];
 var roundScore = 0;
 var activePlayer = 0; //initially first player's turn
@@ -86,7 +83,7 @@ holdBtn.addEventListener("click", () => {
         scores[activePlayer] += roundScore;
 
         //determine winner
-        if (scores[activePlayer] >= 30) {
+        if (scores[activePlayer] >= 50) {
             document.querySelector(`#score--${activePlayer}`).textContent = scores[activePlayer];
             document.querySelector(`.player--${activePlayer}`).classList.add("player--winner");
             document.querySelector(`#name--${activePlayer}`).textContent = "WINNER!!";
